@@ -27,6 +27,7 @@
   let routes = {
     "#tipbuilder": "tipbuilder",
     "#snow": "snow",
+    "#rain": "rain",
   };
   function checkForSecretHash() {
     let hash = window.location.hash;

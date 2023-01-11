@@ -4,7 +4,7 @@
   import Card from "../Card.svelte";
   import { whimsy } from "../prefs";
   import SnowCanvas from "./SnowCanvas.svelte";
-
+  import RainCanvas from './RainCanvas.svelte'
   async function getWeatherData(lat, lon) {
     console.log("Fetching weather...");
     let gridResponse = await fetch(
@@ -26,11 +26,11 @@
 
   onMount(getIACSWeather);
   $: console.log(weatherData);
-  let snowInForecast = false;
+  $: checkForWeather(weatherData);
 
-  $: checkForSnow(weatherData);
   let snow = false;
-  function checkForSnow(weatherData) {
+  let rain = false;
+  function checkForWeather(weatherData) {
     if (
       weatherData &&
       weatherData.properties &&
@@ -40,6 +40,9 @@
         if (p.detailedForecast.search(/\bsnow\b/)) {
           console.log("Found snow in", p.detailedForecast);
           snow = true;
+        } else if (p.detailedForecast.search(/\brain\b/)) {
+          console.log("Found rain in", p.detailedForecast);
+          rain = true;
         }
       }
     }
@@ -47,7 +50,7 @@
 </script>
 
 {#if $whimsy && snow}
-  <SnowCanvas />
+  <RainCanvas />
 {/if}
 {#if weatherData}
   <Card double={true}>

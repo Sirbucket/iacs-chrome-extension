@@ -1,0 +1,7 @@
+<?xml version="1.0" standalone="yes"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+<path style="fill:#010101; stroke:none;" d="M0 0L0 50L23 50L23 1L24 1L24 50L50 50L50 0L0 0z"/>
+<path style="fill:#2f3799; stroke:none;" d="M23 1L23 8L24 8L23 1z"/>
+<path style="fill:#4d6df3; stroke:none;" d="M23 8L23 45L24 45C24 34.3512 27.1113 17.7978 23 8z"/>
+<path style="fill:#01b7ef; stroke:none;" d="M23 45L23 50L24 50L23 45z"/>
+</svg>
