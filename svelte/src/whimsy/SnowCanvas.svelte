@@ -35,8 +35,9 @@
     let width = div.clientWidth
 
     if (x < 0) {
-      return;
+      return false;
     }
+
     if (x > offsetLeft && x < (offsetLeft + width) && y > (offsetTop - (flakeSize / 2)) && y < (offsetTop + flakeSize)) {
       return true
     }
@@ -101,15 +102,20 @@
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     let rotater = Rotater3D(ctx);
     flakes.forEach((flake) => {
+      let x = flake.x 
+      let y = flake.y 
+      let xangle = flake.xangle 
+      let yangle = flake.yangle 
+      let angle = flake.angle
       if (flake.y < 0) {
         return;
       }
       rotater.drawAt(
-        flake.x,
-        flake.y,
-        (flake.xangle * Math.PI) / 180,
-        (flake.yangle * Math.PI) / 180,
-        (flake.angle * Math.PI) / 180,
+        x,
+        y,
+        (xangle * Math.PI) / 180,
+        (yangle * Math.PI) / 180,
+        (angle * Math.PI) / 180,
         () => {
           try {
             ctx.drawImage(
@@ -158,6 +164,7 @@
 
   function updateFlake(flake, elapsed) {
     canvas.width = window.innerWidth;
+  
     if (!flake.vx) {
       flake.vx = Math.random() * 20 - 10;
     }
