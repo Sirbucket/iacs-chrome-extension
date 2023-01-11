@@ -5,7 +5,8 @@
   let flakeSize = 32;
   let animating = false;
   let lastAnimation = 0;
-
+  let maxBreeze = 30;
+  
   let breeze = {
     vx: 4,
     vy: 5,
@@ -27,17 +28,17 @@
   }
 
   function isTouchingTop(flake, div: HTMLDivElement) {
-    if (flake.y < 0) {
+    let x = flake.x 
+    let y = flake.y 
+    let offsetLeft = div.offsetLeft 
+    let offsetTop = div.offsetTop 
+    let width = div.clientWidth
+
+    if (x < 0) {
       return;
     }
-    if (flake.x > div.offsetLeft) {
-      if (flake.x < div.offsetLeft + div.clientWidth) {
-        if (flake.y > div.offsetTop - flakeSize / 2) {
-          if (flake.y < div.offsetTop + flakeSize) {
-            return true;
-          }
-        }
-      }
+    if (x > offsetLeft && x < (offsetLeft + width) && y > (offsetTop - (flakeSize / 2)) && y < (offsetTop + flakeSize)) {
+      return true
     }
   }
 
@@ -52,7 +53,6 @@
   onDestroy(() => {
     animating = false;
   });
-  let maxBreeze = 30;
 
   function startSnow() {
     findWalls();
@@ -85,9 +85,8 @@
     let elapsed = 0;
     if (lastAnimation) {
       elapsed = ts - lastAnimation;
-    } else {
-      elapsed = 0;
     }
+    
     lastAnimation = ts;
     flakes.forEach((flake) => updateFlake(flake, elapsed));
     //flakes = flakes.filter((flake) => flake.y < window.innerHeight);
