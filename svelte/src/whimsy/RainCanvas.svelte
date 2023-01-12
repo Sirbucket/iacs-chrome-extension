@@ -112,9 +112,9 @@
         rotater.drawAt(
           x,
           y,
-          (xangle * Math.PI) / 180,
-          (yangle * Math.PI) / 180,
-          (angle * Math.PI) / 180,
+          0,
+          0,
+          angle,
           () => {
             try {
               ctx.drawImage(
@@ -137,10 +137,10 @@
       canvas.width = window.innerWidth;
     
       if (!flake.vx) {
-        flake.vx = Math.random() * 20 - 10;
+        flake.vx = 300 + Math.random() * 20;
       }
       if (!flake.vy) {
-        flake.vy = 10 - Math.random() * 20;
+        flake.vy = 600 - Math.random() * 50;
       }
       if (!flake.vay) {
         flake.vay = Math.random() * 18 - 36;
@@ -154,17 +154,11 @@
       if (!flake.xangle) {
         flake.xangle = 0;
       }
-      flake.yangle += (flake.vay / 1000) * elapsed;
-      flake.xangle += (flake.vax / 1000) * elapsed;
+
       // Let our z rotation come from our x movement
-      flake.angle += ((5 * (flake.vx + breeze.vx)) / 1000) * elapsed;
+      flake.angle = -120
       if (isTouchingAny(flake, walls)) {
-        flake.y += 0;
-        flake.xangle = 0;
-        flake.yangle = 0;
-        if (Math.random() * 1000 < 1) {
-          flake.y = Math.random() * -1000;
-        }
+        flake.y = 0;
       } else {
         flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
       }
