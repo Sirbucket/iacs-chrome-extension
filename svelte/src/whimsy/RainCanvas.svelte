@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Rotater3D } from "../util/draw3d";
     import { onMount, onDestroy } from "svelte";
-    let walls = [];
+
     let flakeSize = 32;
     let animating = false;
     let lastAnimation = 0;
@@ -11,37 +11,6 @@
       vx: 4,
       vy: 5,
     };
-  
-    function findWalls() {
-      walls = [];
-      for (let div of document.querySelectorAll(".card")) {
-        walls.push(div);
-      }
-    }
-    function isTouchingAny(flake, divs) {
-      for (let d of divs) {
-        if (isTouchingTop(flake, d)) {
-          return true;
-        }
-      }
-      return false;
-    }
-  
-    function isTouchingTop(flake, div: HTMLDivElement) {
-      let x = flake.x 
-      let y = flake.y 
-      let offsetLeft = div.offsetLeft 
-      let offsetTop = div.offsetTop 
-      let width = div.clientWidth
-  
-      if (x < 0) {
-        return false;
-      }
-  
-      if (x > offsetLeft && x < (offsetLeft + width) && y > (offsetTop - (flakeSize / 2)) && y < (offsetTop + flakeSize)) {
-        return true
-      }
-    }
   
     function removeBroken() {
       flakes = flakes.filter((f) => !f.broken);
@@ -56,7 +25,6 @@
     });
   
     function startSnow() {
-      findWalls();
       animating = true;
       makeFlakes();
       requestAnimationFrame(animateSnow);
@@ -64,8 +32,8 @@
     }
   
     function updateBreeze() {
-      breeze.vx += 10 - Math.random() * 10;
-      breeze.vy += 5 - Math.random() * 5 + 15;
+      breeze.vx += 100 - Math.random() * 10;
+      breeze.vy += 50 - Math.random() * 5 + 15;
       let gustTime = Math.random() * 1000 * 30;
       if (Math.abs(breeze.vx) > maxBreeze) {
         breeze.vx *= 0.8;
@@ -137,10 +105,10 @@
       canvas.width = window.innerWidth;
     
       if (!flake.vx) {
-        flake.vx = 300 + Math.random() * 20;
+        flake.vx = 400 + Math.random() * 50;
       }
       if (!flake.vy) {
-        flake.vy = 600 - Math.random() * 50;
+        flake.vy = 800 - Math.random() * 100;
       }
       if (!flake.vay) {
         flake.vay = Math.random() * 18 - 36;
@@ -155,13 +123,9 @@
         flake.xangle = 0;
       }
 
-      // Let our z rotation come from our x movement
-      flake.angle = -120
-      if (isTouchingAny(flake, walls)) {
-        flake.y = 0;
-      } else {
-        flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
-      }
+ 
+      flake.angle = -120;
+      flake.y += ((flake.vy + breeze.vy) / 1000) * elapsed;
       flake.x += ((flake.vx + breeze.vx) / 1000) * elapsed;
       if (flake.x > canvas.width) {
         //console.log("flake off canvas, move from ", flake.x);
